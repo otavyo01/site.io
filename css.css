@@ -617,12 +617,15 @@ body::before{
         position: absolute;
         left: 12px;
         top: 10px;
-        width: 36px;
-        height: 36px;
+        width: 48px;
+        height: 48px;
         display: inline-flex !important;
         align-items: center;
         justify-content: center;
+        padding: 8px;
         z-index: 1200;
+        border-radius: 8px;
+        background: transparent;
     }
     .cart-button{
         position: absolute;
@@ -631,6 +634,7 @@ body::before{
         z-index: 1200;
         /* hide top cart on mobile when cart is available inside side-nav */
         display: none !important;
+        pointer-events: none !important;
     }
     .brand-wrap{ margin: 0 auto; }
 }

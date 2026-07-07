@@ -24,6 +24,53 @@
             } catch (e) { console.warn('hamburger quick handler error', e); }
         });
     }
+
+    // Force-hide top cart button on small screens as a JS fallback
+    try {
+        if (window.innerWidth && window.innerWidth <= 480) {
+            const topCart = document.querySelector('.cart-button');
+            if (topCart) {
+                topCart.style.display = 'none';
+                topCart.style.pointerEvents = 'none';
+            }
+        }
+    } catch (e) {}
+
+    // Robust delegation: catch taps/clicks for hamburger, side-tabs and side cart
+    document.addEventListener('click', (e) => {
+        const hb = e.target.closest('.hamburger-button');
+        if (hb) {
+            // toggle side-nav
+            try {
+                const isOpen = sideNav && sideNav.getAttribute('aria-hidden') === 'false';
+                if (isOpen) closeSideNav(); else openSideNav();
+            } catch (err) {}
+            return;
+        }
+
+        const sideCartBtn = e.target.closest('[data-action="open-cart"]');
+        if (sideCartBtn) {
+            if (cartPanel) cartPanel.hidden = false;
+            try { if (sideNav) { sideNav.setAttribute('aria-hidden','true'); sideNav.hidden = true; } if (sideOverlay) sideOverlay.hidden = true; } catch (err) {}
+            renderCart();
+            return;
+        }
+
+        const sideTabBtn = e.target.closest('.side-tab');
+        if (sideTabBtn) {
+            const tab = sideTabBtn.getAttribute('data-tab');
+            if (!tab) return;
+            // deactivate others and activate target
+            document.querySelectorAll('[data-tab]').forEach(btn=>btn.classList.remove('active'));
+            sideTabBtn.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+            const target = document.getElementById(tab);
+            if (target) target.classList.add('active');
+            // close side nav
+            try { if (sideNav) { sideNav.setAttribute('aria-hidden','true'); sideNav.hidden = true; } if (sideOverlay) sideOverlay.hidden = true; } catch (err) {}
+            return;
+        }
+    }, {passive: true});
     const cartToggle = document.getElementById('cart-toggle');
     const cartPanel = document.getElementById('cart-panel');
     const closeCart = document.getElementById('close-cart');
@@ -127,6 +174,14 @@
         `).join('');
     }
 
+    // keep side-nav cart count in sync if present
+    function updateSideCartCount() {
+        const sideCount = document.getElementById('side-cart-count');
+        if (!sideCount) return;
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        sideCount.textContent = totalItems;
+    }
+
     function addToCart(name, price) {
         const existingItem = cart.find((item) => item.name === name);
 
@@ -142,6 +197,7 @@
 
         renderCart();
         saveCart();
+        updateSideCartCount();
     }
 
     function updateQuantity(name, action) {
@@ -161,6 +217,7 @@
 
         renderCart();
         saveCart();
+        updateSideCartCount();
     }
 
     tabButtons.forEach((button) => {
@@ -178,6 +235,21 @@
             }
         });
     });
+
+    // handle clicks inside side-nav (open cart or navigate)
+    if (sideNav) {
+        sideNav.addEventListener('click', (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            const action = btn.dataset.action;
+            if (action === 'open-cart') {
+                // open cart panel and close side-nav
+                if (cartPanel) cartPanel.hidden = false;
+                try { if (sideNav) { sideNav.setAttribute('aria-hidden','true'); sideNav.hidden = true; } if (sideOverlay) sideOverlay.hidden = true; } catch (err) {}
+                renderCart();
+            }
+        });
+    }
 
     // Side-nav open/close handlers
     function openSideNav(){
@@ -259,6 +331,7 @@
                 cart = cart.filter((item) => item.name !== name);
                 renderCart();
                 saveCart();
+                updateSideCartCount();
             }
         });
     }
