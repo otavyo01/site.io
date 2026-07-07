@@ -1,0 +1,152 @@
+<!--
+Arquivo pronto para copiar e colar no WordPress (Custom HTML block).
+Instruções rápidas:
+1) Faça upload do banner para a biblioteca de mídia do WordPress e atualize o atributo `src` da tag <img> abaixo (ou envie para ./assets/banner.png no servidor e mantenha o caminho).
+2) Cole todo o conteúdo deste arquivo em um bloco "HTML Personalizado" ou em um template.
+-->
+<div class="colorau-store">
+<style>
+/* --- CSS encapsulado para colar no WordPress --- */
+.colorau-store{max-width:1200px;margin:0 auto;font-family:Arial,Helvetica,sans-serif}
+:root{--brand:#a85454;--accent:#7a2f2f}
+.colorau-banner{display:flex;justify-content:center;margin:12px 0}
+/* background decorativo usando a imagem em ./assets/fundocolorau.jpg */
+body::before{content:"";position:fixed;inset:0;background-image:url('./assets/fundocolorau.jpg');background-size:cover;background-position:center;opacity:1;filter:blur(2px) brightness(0.96);z-index:0;pointer-events:none}
+.colorau-store{position:relative;z-index:1}
+.colorau-banner img{width:100%;max-width:520px;max-height:360px;object-fit:contain;height:auto;border-radius:0;box-shadow:0 6px 18px rgba(0,0,0,.08);transition:transform .2s ease}
+.colorau-banner img:hover{transform:translateY(-4px) scale(1.01)}
+.colorau-top{display:flex;align-items:center;gap:16px;justify-content:space-between;background:rgba(255,255,255,.97);padding:12px 18px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.08);}
+.colorau-brand{display:flex;align-items:center;gap:12px}
+.colorau-mark{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--brand),#d37676);color:#fff;font-weight:700}
+.colorau-nav{display:flex;gap:8px}
+.colorau-nav button{border:0;background:transparent;color:var(--brand);padding:8px 12px;border-radius:999px;font-weight:600;cursor:pointer}
+.colorau-hero{background:rgba(255,255,255,.94);padding:18px;border-radius:16px;margin:18px 0;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.product-card{background:#fff;border-radius:12px;padding:14px;box-shadow:0 8px 20px rgba(0,0,0,.08);color:var(--accent)}
+.product-image{height:120px;border-radius:10px;background:linear-gradient(135deg,#f9e3e3,#f2c8c8);display:flex;align-items:center;justify-content:center;margin-bottom:8px;font-weight:700}
+.product-price{color:var(--brand);font-weight:700;margin:8px 0}
+.buy-button{width:100%;background:var(--brand);color:#fff;border:none;padding:10px;border-radius:10px;cursor:pointer}
+.cart-panel{position:fixed;right:12px;top:90px;width:min(340px,calc(100vw - 32px));background:#fff;padding:12px;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,.12);z-index:9999}
+.cart-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f4dede}
+/* responsivo */
+@media(max-width:480px){.colorau-banner img{max-width:300px;max-height:220px}.colorau-top{flex-direction:column;align-items:center}}
+</style>
+
+<!-- Header / top -->
+<header class="colorau-top">
+  <div class="colorau-brand">
+    <div class="colorau-mark">C</div>
+    <div>
+      <div style="font-weight:700;color:var(--brand);">Colorau</div>
+      <div style="font-size:13px;color:#8d5a5a">Loja online</div>
+    </div>
+  </div>
+  <nav class="colorau-nav">
+    <button data-tab="produtos">Produtos</button>
+    <button data-tab="sobre">Sobre nós</button>
+    <button data-tab="contato">Contato</button>
+  </nav>
+</header>
+
+<!-- Banner: atualize o src com o caminho do WordPress (ex: https://seusite.com/wp-content/uploads/2026/07/banner.png) -->
+<div class="colorau-banner">
+  <img id="colorau-banner-img"
+       src="./assets/banner-logo-trim.png"
+       srcset="./assets/banner-logo-trim.png 1x, ./assets/banner-logo-trim2.png 2x, ./assets/banner-logo.png 3x"
+       sizes="(max-width:480px) 300px, (max-width:768px) 420px, 520px"
+       alt="Banner Colorau"
+       class="colorau-banner-img">
+</div>
+
+<!-- Conteúdo: produto + sobre -->
+<section id="produtos">
+  <div class="colorau-hero">
+    <div>
+      <div style="text-transform:uppercase;font-weight:700;color:var(--brand);font-size:12px">Loja online</div>
+      <h2 style="margin:.25rem 0;color:var(--accent)">Produtos escolhidos com cuidado para você</h2>
+      <p style="margin:0;color:#8d5a5a">Experiência de compra prática e confortável.</p>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <div style="background:#f7dcdc;color:var(--brand);padding:8px 12px;border-radius:999px">Entrega rápida</div>
+      <div style="background:#f7dcdc;color:var(--brand);padding:8px 12px;border-radius:999px">Pagamento seguro</div>
+    </div>
+  </div>
+
+  <div id="products-grid" class="products-grid"></div>
+</section>
+
+<section id="sobre" style="display:none">
+  <div style="background:rgba(255,255,255,.96);padding:18px;border-radius:12px;color:var(--accent);box-shadow:0 8px 20px rgba(0,0,0,.08)">
+    <h2>Sobre nós</h2>
+    <p id="sobre-line-1">Bem-vindo ao Colorau!</p>
+    <p id="sobre-line-2">Somos uma marca que valoriza qualidade, tradição e carinho por cada cliente.</p>
+  </div>
+</section>
+
+<!-- Carrinho simplificado para demonstração -->
+<div id="cart-panel" class="cart-panel" style="display:none">
+  <h3 style="margin:0 0 8px;color:var(--accent)">Carrinho</h3>
+  <div id="cart-items"></div>
+  <div style="text-align:right;margin-top:8px;color:var(--accent)"><strong>Total: <span id="cart-total">R$ 0,00</span></strong></div>
+</div>
+
+<script>
+// --- JS encapsulado para colar no WordPress ---
+(function(){
+  // array de produtos - edite aqui
+  const products = [
+    {name:'Produto 1',price:1000,desc:'Descrição 1'},
+    {name:'Produto 2',price:1500,desc:'Descrição 2'},
+    {name:'Produto 3',price:2000,desc:'Descrição 3'},
+    {name:'Produto 4',price:2500,desc:'Descrição 4'},
+    {name:'Produto 5',price:3000,desc:'Descrição 5'},
+    {name:'Produto 6',price:3500,desc:'Descrição 6'},
+    {name:'Produto 7',price:4000,desc:'Descrição 7'},
+    {name:'Produto 8',price:4500,desc:'Descrição 8'},
+    {name:'Produto 9',price:5000,desc:'Descrição 9'},
+    {name:'Produto 10',price:5500,desc:'Descrição 10'}
+  ];
+
+  const productsGrid = document.getElementById('products-grid');
+  const cartPanel = document.getElementById('cart-panel');
+  const cartItems = document.getElementById('cart-items');
+  const cartTotal = document.getElementById('cart-total');
+
+  function formatCurrency(v){return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(v/100)}
+
+  // render produtos
+  productsGrid.innerHTML = products.map(p => `\n    <div class="product-card">\n      <div class="product-image">Foto</div>\n      <div style="font-weight:700">${p.name}</div>\n      <div class="product-description" style="font-size:13px;color:#8d5a5a">${p.desc}</div>\n      <div class="product-price">${formatCurrency(p.price)}</div>\n      <button class="buy-button" data-name="${p.name}" data-price="${p.price}">Adicionar ao carrinho</button>\n    </div>\n  `).join('');
+
+  // carrinho simples em memória (ou você pode adaptar para localStorage)
+  let cart = [];
+
+  function renderCart(){
+    if(cart.length===0){cartItems.innerHTML='<div style="color:#a85454;font-style:italic">Carrinho vazio</div>';cartTotal.textContent=formatCurrency(0);return}
+    cartItems.innerHTML = cart.map(i=>`<div class="cart-item"><div><strong>${i.name}</strong><div style="font-size:13px;color:#8d5a5a">${formatCurrency(i.price)} cada</div></div><div style="display:flex;gap:6px;align-items:center"><button data-name="${i.name}" data-action="decrease">−</button><span>${i.quantity}</span><button data-name="${i.name}" data-action="increase">+</button><button data-name="${i.name}" data-action="remove">Remover</button></div></div>`).join('');
+    const total = cart.reduce((s,it)=>s+it.price*it.quantity,0);
+    cartTotal.textContent = formatCurrency(total);
+  }
+
+  // eventos
+  productsGrid.addEventListener('click', e=>{
+    const btn = e.target.closest('.buy-button'); if(!btn) return; const name=btn.dataset.name; const price=Number(btn.dataset.price);
+    const ex = cart.find(x=>x.name===name); if(ex) ex.quantity++; else cart.push({name,price,quantity:1}); cartPanel.style.display='block'; renderCart();
+  });
+
+  cartPanel.addEventListener('click', e=>{
+    const btn = e.target.closest('button'); if(!btn) return; const name = btn.dataset.name; const action=btn.dataset.action;
+    if(action==='increase') { const it = cart.find(x=>x.name===name); if(it) it.quantity++; }
+    else if(action==='decrease') { const it = cart.find(x=>x.name===name); if(it){ it.quantity--; if(it.quantity<=0) cart=cart.filter(x=>x.name!==name); }}
+    else if(action==='remove') { cart = cart.filter(x=>x.name!==name); }
+    renderCart();
+  });
+
+  // navegação simples de abas
+  document.querySelectorAll('[data-tab]').forEach(btn=>btn.addEventListener('click', ()=>{
+    const tab = btn.dataset.tab; document.querySelectorAll('#produtos,#sobre,#contato').forEach(s=>s.style.display='none'); document.getElementById(tab).style.display='block';
+  }));
+
+  renderCart();
+})();
+</script>
+</div>

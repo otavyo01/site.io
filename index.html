@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colorau</title>
+    <link rel="stylesheet" href="./css.css">
+</head>
+<body>
+    <div class="colorau-store">
+        <header class="topbar">
+            <div class="brand-wrap">
+                <div class="brand-mark">C</div>
+                <div class="brand-text">
+                    <h1>Colorau</h1>
+                    <span>Loja online</span>
+                </div>
+            </div>
+
+            <nav class="navbar" aria-label="Menu principal">
+                <button class="tab-button active" type="button" data-tab="produtos">Produtos</button>
+                <button class="tab-button" type="button" data-tab="sobre">Sobre nós</button>
+                <button class="tab-button" type="button" data-tab="contato">Contato</button>
+            </nav>
+
+            <button class="cart-button" type="button" id="cart-toggle">Carrinho <span id="cart-count">0</span></button>
+        </header>
+        <!-- Banner do produto/Marca: substitua "assets/banner.png" pela sua imagem de banner.
+             Coloque a imagem em ./assets/ e mantenha o nome ou atualize o caminho abaixo. -->
+        <div class="site-banner" aria-hidden="false">
+            <img src="./assets/banner-logo-trim.png"
+                 srcset="./assets/banner-logo-trim.png 1x, ./assets/banner-logo-trim2.png 2x, ./assets/banner-logo.png 3x"
+                 sizes="(max-width:480px) 300px, (max-width:768px) 420px, 520px"
+                 alt="Banner Colorau"
+                 class="site-banner-img"
+                 loading="lazy">
+        </div>
+
+        <div class="cart-panel" id="cart-panel" hidden>
+            <div class="cart-panel-header">
+                <h2>Carrinho</h2>
+                <button class="close-cart" id="close-cart" type="button">×</button>
+            </div>
+            <div id="cart-message" class="cart-message">Seu carrinho está vazio.</div>
+            <div id="cart-items" class="cart-items"></div>
+            <div class="cart-footer">
+                <strong>Total: <span id="cart-total">R$ 0,00</span></strong>
+            </div>
+        </div>
+
+        <section class="tab-content active" id="produtos">
+            <div class="products-page">
+                <div class="products-hero">
+                    <div>
+                        <p class="eyebrow">Loja online</p>
+                        <h2>Produtos escolhidos com cuidado para você</h2>
+                        <p>Uma experiência de compra prática, bonita e confortável para o seu cliente.</p>
+                    </div>
+                    <div class="hero-badges">
+                        <div class="hero-badge">Entrega rápida</div>
+                        <div class="hero-badge">Pagamento seguro</div>
+                        <div class="hero-badge">Atendimento ágil</div>
+                    </div>
+                </div>
+
+                <!-- Para alterar um produto, edite este bloco de cards abaixo. -->
+                <div id="products-grid" class="products-grid"></div>
+            </div>
+        </section>
+
+        <section class="tab-content" id="sobre">
+            <div class="sobre-page">
+                <h2 class="about-title">Sobre nós</h2>
+                <p class="about-line about-line-1">Bem-vindo ao Colorau!</p>
+                <p class="about-line about-line-2">Somos uma marca que valoriza qualidade, tradição e carinho por cada cliente.</p>
+            </div>
+        </section>
+
+        <section class="tab-content" id="contato">
+            <div class="sobre-page">
+                <h2>Contato</h2>
+                <p>Fale conosco pelo WhatsApp ou e-mail.</p>
+            </div>
+        </section>
+    </div>
+
+    <script src="./js.js"></script>
+</body>
+</html>
