@@ -5,6 +5,25 @@
     const sideNav = document.getElementById('side-nav');
     const sideOverlay = document.getElementById('side-nav-overlay');
     const closeSide = document.getElementById('close-side');
+    // quick-attach minimal side-nav toggle to keep hamburger responsive
+    if (hamburger) {
+        hamburger.addEventListener('click', () => {
+            try {
+                const isOpen = sideNav && sideNav.getAttribute('aria-hidden') === 'false';
+                if (isOpen) {
+                    if (sideNav) { sideNav.setAttribute('aria-hidden', 'true'); sideNav.hidden = true; }
+                    if (sideOverlay) sideOverlay.hidden = true;
+                    hamburger.setAttribute('aria-expanded', 'false');
+                    console.log('side-nav: closed (quick handler)');
+                } else {
+                    if (sideNav) { sideNav.setAttribute('aria-hidden', 'false'); sideNav.hidden = false; }
+                    if (sideOverlay) sideOverlay.hidden = false;
+                    hamburger.setAttribute('aria-expanded', 'true');
+                    console.log('side-nav: opened (quick handler)');
+                }
+            } catch (e) { console.warn('hamburger quick handler error', e); }
+        });
+    }
     const cartToggle = document.getElementById('cart-toggle');
     const cartPanel = document.getElementById('cart-panel');
     const closeCart = document.getElementById('close-cart');

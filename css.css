@@ -608,6 +608,31 @@ body::before{
     }
 }
 
+/* Mobile: position hamburger left and cart right at top */
+@media (max-width: 480px) {
+    .topbar {
+        position: sticky; /* already sticky; keep it positioned for absolute children */
+    }
+    .hamburger-button{
+        position: absolute;
+        left: 12px;
+        top: 10px;
+        width: 36px;
+        height: 36px;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        z-index: 1200;
+    }
+    .cart-button{
+        position: absolute;
+        right: 12px;
+        top: 10px;
+        z-index: 1200;
+    }
+    .brand-wrap{ margin: 0 auto; }
+}
+
 @media (min-width: 1024px) {
     .products-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
