@@ -162,18 +162,22 @@
 
     // Side-nav open/close handlers
     function openSideNav(){
-        if (sideNav){
-            sideNav.setAttribute('aria-hidden','false');
-            sideOverlay.hidden = false;
-            hamburger.setAttribute('aria-expanded','true');
+        try {
+            if (sideNav) { sideNav.setAttribute('aria-hidden','false'); sideNav.hidden = false; }
+            if (sideOverlay) sideOverlay.hidden = false;
+            if (hamburger) hamburger.setAttribute('aria-expanded','true');
+        } catch (err) {
+            // fail safely
         }
     }
 
     function closeSideNav(){
-        if (sideNav){
-            sideNav.setAttribute('aria-hidden','true');
-            sideOverlay.hidden = true;
-            hamburger.setAttribute('aria-expanded','false');
+        try {
+            if (sideNav) { sideNav.setAttribute('aria-hidden','true'); sideNav.hidden = true; }
+            if (sideOverlay) sideOverlay.hidden = true;
+            if (hamburger) hamburger.setAttribute('aria-expanded','false');
+        } catch (err) {
+            // fail safely
         }
     }
 
@@ -191,6 +195,11 @@
     if (sideOverlay){
         sideOverlay.addEventListener('click', closeSideNav);
     }
+
+    // Close side-nav with Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeSideNav();
+    });
 
     // Delegação de eventos para botões de compra (funciona mesmo com render dinâmico)
     if (productsGrid) {
