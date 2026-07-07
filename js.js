@@ -150,6 +150,8 @@
             cartItems.innerHTML = '<p class="empty-cart">Seu carrinho está vazio.</p>';
             cartCount.textContent = '0';
             cartTotal.textContent = formatCurrency(0);
+            // remove scrollable when cart is empty
+            try { if (cartItems) cartItems.classList.remove('scrollable'); } catch(e){}
             return;
         }
 
@@ -172,14 +174,31 @@
                 </div>
             </div>
         `).join('');
+
+        // ativar rolagem quando houver mais de 5 entradas (linhas) no carrinho
+        try {
+            const entryCount = cart.length || 0;
+            if (cartItems) {
+                if (entryCount > 5) {
+                    cartItems.classList.add('scrollable');
+                } else {
+                    cartItems.classList.remove('scrollable');
+                }
+            }
+        } catch (e) {
+            // fail silently
+        }
     }
 
-    // keep side-nav cart count in sync if present
-    function updateSideCartCount() {
-        const sideCount = document.getElementById('side-cart-count');
-        if (!sideCount) return;
+    // keep all cart counters in sync (top button, side menu and panel header)
+    function updateCounts() {
         const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-        sideCount.textContent = totalItems;
+        const sideCount = document.getElementById('side-cart-count');
+        const topCount = document.getElementById('cart-count');
+        const panelCount = document.getElementById('cart-panel-count');
+        if (sideCount) sideCount.textContent = totalItems;
+        if (topCount) topCount.textContent = totalItems;
+        if (panelCount) panelCount.textContent = totalItems;
     }
 
     function addToCart(name, price) {
@@ -197,7 +216,7 @@
 
         renderCart();
         saveCart();
-        updateSideCartCount();
+        updateCounts();
     }
 
     function updateQuantity(name, action) {
@@ -217,7 +236,7 @@
 
         renderCart();
         saveCart();
-        updateSideCartCount();
+        updateCounts();
     }
 
     tabButtons.forEach((button) => {
@@ -331,10 +350,11 @@
                 cart = cart.filter((item) => item.name !== name);
                 renderCart();
                 saveCart();
-                updateSideCartCount();
+                updateCounts();
             }
         });
     }
 
     renderCart();
+    updateCounts();
 })();
