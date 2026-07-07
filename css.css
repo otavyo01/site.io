@@ -629,6 +629,8 @@ body::before{
         right: 12px;
         top: 10px;
         z-index: 1200;
+        /* hide top cart on mobile when cart is available inside side-nav */
+        display: none !important;
     }
     .brand-wrap{ margin: 0 auto; }
 }
