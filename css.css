@@ -680,3 +680,9 @@ body::before{
     }
     .brand-text h1{ font-size: 1.4rem; }
 }
+
+/* Ensure header navbar and top cart are visible again on desktop */
+@media (min-width: 769px) {
+    .navbar{ display: flex !important; }
+    .cart-button{ display: inline-flex !important; pointer-events: auto !important; }
+}
