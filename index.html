@@ -9,6 +9,11 @@
 <body>
     <div class="colorau-store">
         <header class="topbar">
+            <button class="hamburger-button" id="hamburger-button" aria-label="Abrir menu" aria-expanded="false" type="button">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
             <div class="brand-wrap">
                 <div class="brand-mark">C</div>
                 <div class="brand-text">
@@ -25,6 +30,17 @@
 
             <button class="cart-button" type="button" id="cart-toggle">Carrinho <span id="cart-count">0</span></button>
         </header>
+
+        <!-- Painel lateral de navegação (off-canvas) -->
+        <div id="side-nav-overlay" class="side-nav-overlay" hidden></div>
+        <nav id="side-nav" class="side-nav" aria-hidden="true" aria-label="Navegação lateral">
+            <button class="close-side" id="close-side" aria-label="Fechar menu">×</button>
+            <ul>
+                <li><button class="side-tab" data-tab="produtos">Produtos</button></li>
+                <li><button class="side-tab" data-tab="sobre">Sobre nós</button></li>
+                <li><button class="side-tab" data-tab="contato">Contato</button></li>
+            </ul>
+        </nav>
         <!-- Banner do produto/Marca: substitua "assets/banner.png" pela sua imagem de banner.
              Coloque a imagem em ./assets/ e mantenha o nome ou atualize o caminho abaixo. -->
         <div class="site-banner" aria-hidden="false">

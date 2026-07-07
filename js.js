@@ -1,6 +1,10 @@
 (function () {
-    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabButtons = document.querySelectorAll('[data-tab]');
     const tabContents = document.querySelectorAll('.tab-content');
+    const hamburger = document.getElementById('hamburger-button');
+    const sideNav = document.getElementById('side-nav');
+    const sideOverlay = document.getElementById('side-nav-overlay');
+    const closeSide = document.getElementById('close-side');
     const cartToggle = document.getElementById('cart-toggle');
     const cartPanel = document.getElementById('cart-panel');
     const closeCart = document.getElementById('close-cart');
@@ -144,6 +148,7 @@
         button.addEventListener('click', () => {
             const tab = button.getAttribute('data-tab');
 
+            // remove active from all tab triggers (top nav + side nav)
             tabButtons.forEach((btn) => btn.classList.remove('active'));
             tabContents.forEach((content) => content.classList.remove('active'));
 
@@ -154,6 +159,38 @@
             }
         });
     });
+
+    // Side-nav open/close handlers
+    function openSideNav(){
+        if (sideNav){
+            sideNav.setAttribute('aria-hidden','false');
+            sideOverlay.hidden = false;
+            hamburger.setAttribute('aria-expanded','true');
+        }
+    }
+
+    function closeSideNav(){
+        if (sideNav){
+            sideNav.setAttribute('aria-hidden','true');
+            sideOverlay.hidden = true;
+            hamburger.setAttribute('aria-expanded','false');
+        }
+    }
+
+    if (hamburger){
+        hamburger.addEventListener('click', ()=>{
+            const isOpen = sideNav && sideNav.getAttribute('aria-hidden') === 'false';
+            if (isOpen) closeSideNav(); else openSideNav();
+        });
+    }
+
+    if (closeSide){
+        closeSide.addEventListener('click', closeSideNav);
+    }
+
+    if (sideOverlay){
+        sideOverlay.addEventListener('click', closeSideNav);
+    }
 
     // Delegação de eventos para botões de compra (funciona mesmo com render dinâmico)
     if (productsGrid) {

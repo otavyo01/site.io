@@ -49,6 +49,75 @@ body::before{
     z-index: 900;
 }
 
+/* Hamburger button */
+.hamburger-button{
+    background: transparent;
+    border: none;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.hamburger-button .bar{
+    width: 22px;
+    height: 2px;
+    background: #a85454;
+    display: block;
+    border-radius: 2px;
+}
+
+/* Off-canvas side nav */
+.side-nav-overlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 995;
+}
+.side-nav{
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 280px;
+    background: white;
+    padding: 20px;
+    box-shadow: 2px 0 24px rgba(0,0,0,0.16);
+    transform: translateX(-110%);
+    transition: transform 0.28s ease;
+    z-index: 1000;
+    color: #7a2f2f;
+}
+.side-nav[aria-hidden="false"]{
+    transform: translateX(0);
+}
+.side-nav ul{ list-style: none; padding: 0; margin: 18px 0 0; }
+.side-nav li{ margin-bottom: 12px; }
+.side-nav button{ width: 100%; text-align: left; border: none; background: transparent; padding: 10px 12px; border-radius: 8px; cursor: pointer; color: #7a2f2f; font-weight:600; }
+.side-nav button:hover{ background: #f7dcdc; color:#7a2f2f; }
+.close-side{ position: absolute; right: 10px; top: 8px; border: none; background: transparent; font-size: 1.4rem; cursor: pointer; color: #a85454; }
+
+/* Navbar moved to side-nav; keep header layout simple */
+/* header navbar removed; navigation lives in side-nav */
+
+/* Desktop: show hamburger but keep navbar visible */
+@media (min-width: 769px) {
+    .hamburger-button{ display: inline-flex; }
+}
+
+/* Mobile: keep styles consistent */
+@media (max-width: 480px) {
+    .hamburger-button{ display: inline-flex; }
+    .navbar{ display: none; }
+}
+
+/* Hide the header navbar everywhere; navigation now lives in the side-nav */
+.navbar{ display: none !important; }
+/* Ensure hamburger is always visible */
+.hamburger-button{ display: inline-flex !important; }
+
 .brand-wrap {
     display: flex;
     align-items: center;
@@ -536,4 +605,40 @@ body::before{
     .products-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
+}
+
+/* Tablet: entre dispositivos móveis maiores e laptops pequenos */
+@media (min-width: 769px) and (max-width: 1023px) {
+    .products-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+    }
+    .site-banner-img{
+        max-width: 460px;
+        max-height: 360px;
+    }
+    .topbar{
+        padding: 14px 20px;
+    }
+    .products-hero{
+        gap: 20px;
+    }
+}
+
+/* Desktop amplo: telas grandes (PC) */
+@media (min-width: 1200px) {
+    .colorau-store{ max-width: 1400px; }
+    .products-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 24px;
+    }
+    .site-banner-img{
+        max-width: 680px;
+        max-height: 420px;
+    }
+    .cart-panel{
+        width: min(420px, calc(100vw - 60px));
+        right: 30px;
+    }
+    .brand-text h1{ font-size: 1.4rem; }
 }
