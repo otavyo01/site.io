@@ -74,6 +74,7 @@
     const cartToggle = document.getElementById('cart-toggle');
     const cartPanel = document.getElementById('cart-panel');
     const closeCart = document.getElementById('close-cart');
+    const checkoutButton = document.getElementById('checkout-button');
     const cartCount = document.getElementById('cart-count');
     const cartItems = document.getElementById('cart-items');
     const cartTotal = document.getElementById('cart-total');
@@ -175,11 +176,12 @@
             </div>
         `).join('');
 
-        // ativar rolagem quando houver mais de 5 entradas (linhas) no carrinho
+        // ativar rolagem com base no tamanho da tela
         try {
-            const entryCount = cart.length || 0;
+            const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const threshold = window.innerWidth <= 480 ? 3 : 5;
             if (cartItems) {
-                if (entryCount > 5) {
+                if (totalQuantity > threshold) {
                     cartItems.classList.add('scrollable');
                 } else {
                     cartItems.classList.remove('scrollable');
@@ -188,6 +190,20 @@
         } catch (e) {
             // fail silently
         }
+
+        if (checkoutButton) {
+            checkoutButton.disabled = cart.length === 0;
+        }
+    }
+
+    function checkoutCart() {
+        if (!checkoutButton || !cartMessage) return;
+        if (cart.length === 0) {
+            cartMessage.textContent = 'Seu carrinho está vazio. Adicione um produto antes de finalizar.';
+            return;
+        }
+        cartMessage.textContent = 'Compra iniciada! Em breve você pode integrar o pagamento.';
+        checkoutButton.blur();
     }
 
     // keep all cart counters in sync (top button, side menu and panel header)
@@ -263,7 +279,10 @@
             const action = btn.dataset.action;
             if (action === 'open-cart') {
                 // open cart panel and close side-nav
-                if (cartPanel) cartPanel.hidden = false;
+                if (cartPanel) {
+                    cartPanel.hidden = false;
+                    cartPanel.style.display = '';
+                }
                 try { if (sideNav) { sideNav.setAttribute('aria-hidden','true'); sideNav.hidden = true; } if (sideOverlay) sideOverlay.hidden = true; } catch (err) {}
                 renderCart();
             }
@@ -286,6 +305,17 @@
             if (sideNav) { sideNav.setAttribute('aria-hidden','true'); sideNav.hidden = true; }
             if (sideOverlay) sideOverlay.hidden = true;
             if (hamburger) hamburger.setAttribute('aria-expanded','false');
+        } catch (err) {
+            // fail safely
+        }
+    }
+
+    function hideCartPanel(){
+        try {
+            if (cartPanel) {
+                cartPanel.hidden = true;
+                cartPanel.style.display = 'none';
+            }
         } catch (err) {
             // fail safely
         }
@@ -324,17 +354,30 @@
         cartToggle.addEventListener('click', () => {
             if (cartPanel) {
                 cartPanel.hidden = !cartPanel.hidden;
+                if (!cartPanel.hidden) {
+                    cartPanel.style.display = '';
+                } else {
+                    cartPanel.style.display = 'none';
+                }
             }
         });
     }
 
     if (closeCart) {
-        closeCart.addEventListener('click', () => {
-            if (cartPanel) {
-                cartPanel.hidden = true;
-            }
-        });
+        closeCart.addEventListener('click', hideCartPanel);
     }
+
+    if (checkoutButton) {
+        checkoutButton.addEventListener('click', checkoutCart);
+    }
+
+    document.addEventListener('click', (e) => {
+        if (!cartPanel || cartPanel.hidden) return;
+        if (e.target.closest('#cart-panel')) return;
+        if (e.target.closest('#cart-toggle')) return;
+        if (e.target.closest('[data-action="open-cart"]')) return;
+        hideCartPanel();
+    });
 
     if (cartItems) {
         cartItems.addEventListener('click', (event) => {
